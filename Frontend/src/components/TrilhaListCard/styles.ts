@@ -2,24 +2,33 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   card: {
-    width: 160,
-    marginRight: 8,
-  },
-  imageWrapper: {
-    width: "100%",
-    height: 100,
-    borderRadius: 12,
-    overflow: "hidden",
-    marginBottom: 8,
+    flexDirection: "row",
+    marginBottom: 16,
+    backgroundColor: "#fff",
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: 90,
+    height: 90,
+    borderRadius: 12,
+    marginRight: 12,
+  },
+  info: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  nome: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#222",
+    flex: 1,
+    marginRight: 8,
   },
   badge: {
-    position: "absolute",
-    top: 8,
-    left: 8,
     borderRadius: 6,
     paddingHorizontal: 8,
     paddingVertical: 3,
@@ -29,25 +38,19 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#fff",
   },
-  nome: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#222",
-    marginBottom: 2,
-  },
   localizacao: {
     fontSize: 12,
     color: "#777",
+    marginTop: 2,
     marginBottom: 6,
   },
   infoRow: {
     flexDirection: "row",
-    alignItems: "center",
   },
   infoItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 12,
+    marginRight: 14,
   },
   infoText: {
     fontSize: 12,
