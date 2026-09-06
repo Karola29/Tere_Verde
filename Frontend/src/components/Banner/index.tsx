@@ -15,7 +15,7 @@ interface BannerProps {
   onPress: () => void;
 }
 
-export function Banner({
+export default function Banner({
   image,
   title,
   subtitle,

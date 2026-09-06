@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     marginTop: 24,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#222",
     marginBottom: 16,
@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: 12,
     padding: 4,
-    marginBottom: 12,
+    paddingVertical: 8,
     alignItems: "center",
   },
   iconWrapper: {
@@ -31,13 +31,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#E3F2E3",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   cardTitle: {
     fontSize: 12,
     fontWeight: "300",
     color: "#222",
-    marginBottom: 4,
     textAlign: "center",
   },
 });

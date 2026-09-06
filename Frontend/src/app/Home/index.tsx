@@ -1,6 +1,8 @@
 import { router } from "expo-router";
-import { Banner } from "../../components/Banner";
+import Banner from "../../components/Banner";
 import BenefitsSection from "../../components/BenefitsSection";
+import TrilhasShelf from "@/components/TrilhasShelf";
+import { trilhasMock } from "../../data/trilhas";
 
 export default function Home() {
   return (
@@ -10,7 +12,7 @@ export default function Home() {
         title="Explore as trilhas da sua cidade"
         subtitle="Natureza, bem-estar e aventura a poucos passos de você."
         buttonLabel="Explorar trilhas"
-        onPress={() => router.push("/")}
+        onPress={() => router.push("/Trilhas")}
       />
 
       <BenefitsSection
@@ -32,6 +34,14 @@ export default function Home() {
             title: "Momentos inesquecíveis",
           },
         ]}
+      />
+      <TrilhasShelf
+        title="Trilhas em destaque"
+        trilhas={trilhasMock}
+        onVerTodas={() => router.push("/Trilhas")}
+        onSelectTrilha={(trilha) =>
+          router.push(`/Detalhes/${trilha.id}` as any)
+        }
       />
     </>
   );
