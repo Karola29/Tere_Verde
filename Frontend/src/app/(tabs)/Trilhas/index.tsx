@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { styles } from "./styles";
-import SearchBar from "../../components/SearchBar";
-import TrilhaListCard from "../../components/TrilhaListCard";
-import { trilhasMock, Dificuldade } from "../../data/trilhas";
+import SearchBar from "../../../components/SearchBar";
+import TrilhaListCard from "../../../components/TrilhaListCard";
+import { trilhasMock, Dificuldade } from "../../../data/trilhas";
 
 type FiltroDificuldade = "Todas" | Dificuldade;
 
@@ -38,7 +38,7 @@ export default function Trilhas() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require("../../../assets/images/logo.png")}
+          source={require("../../../../assets/images/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />

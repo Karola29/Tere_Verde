@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    padding: 20,
+    padding: 16,
   },
   headerRow: {
     flexDirection: "row",
@@ -126,5 +126,21 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     color: "#555",
     textAlign: "center",
+  },
+  avaliacoesHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  mediaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  mediaText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#444",
+    marginLeft: 4,
   },
 });

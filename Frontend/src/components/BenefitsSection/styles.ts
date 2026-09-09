@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   card: {
-    width: "23%",
+    width: "24%",
     backgroundColor: "#F5F5F5",
     borderRadius: 12,
     padding: 4,
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cardTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "300",
     color: "#222",
     textAlign: "center",

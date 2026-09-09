@@ -18,6 +18,15 @@ export interface Trilha {
   tipoTerreno?: string;
   melhorHorario?: string;
   destaques?: Destaque[];
+  avaliacoes?: Avaliacao[];
+}
+
+export interface Avaliacao {
+  id: string;
+  nome: string;
+  nota: number;
+  comentario: string;
+  data: string;
 }
 
 export const trilhasMock: Trilha[] = [
@@ -38,6 +47,31 @@ export const trilhasMock: Trilha[] = [
       { icon: "leaf", label: "Mata Atlântica" },
       { icon: "accessibility", label: "Acessível" },
       { icon: "camera", label: "Fotografia" },
+    ],
+    avaliacoes: [
+      {
+        id: "a1",
+        nome: "Marina Alves",
+        nota: 5,
+        comentario:
+          "Trilha linda e muito acessível, levei minha mãe de 70 anos e ela adorou!",
+        data: "há 2 semanas",
+      },
+      {
+        id: "a2",
+        nome: "Pedro Costa",
+        nota: 4,
+        comentario:
+          "Ótima vista da mata, só achei um pouco cheia no fim de semana.",
+        data: "há 1 mês",
+      },
+      {
+        id: "a3",
+        nome: "Juliana Ramos",
+        nota: 5,
+        comentario: "Perfeita para ir com crianças. Recomendo muito!",
+        data: "há 1 mês",
+      },
     ],
   },
   {

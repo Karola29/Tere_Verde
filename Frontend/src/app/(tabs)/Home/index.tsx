@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { View, Image } from "react-native";
 import { router } from "expo-router";
-import Banner from "../../components/Banner";
-import BenefitsSection from "../../components/BenefitsSection";
+import Banner from "../../../components/Banner";
+import BenefitsSection from "../../../components/BenefitsSection";
 import TrilhasShelf from "@/components/TrilhasShelf";
-import SearchBar from "../../components/SearchBar";
-import { trilhasMock } from "../../data/trilhas";
+import SearchBar from "../../../components/SearchBar";
+import { trilhasMock } from "../../../data/trilhas";
 import { styles } from "./styles";
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require("../../../assets/images/logo.png")}
+          source={require("../../../../assets/images/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -34,7 +34,7 @@ export default function Home() {
       </View>
 
       <Banner
-        image={require("../../../assets/images/travessia.jpg")}
+        image={require("../../../../assets/images/travessia.jpg")}
         title="Explore as trilhas da sua cidade"
         subtitle="Natureza, bem-estar e aventura a poucos passos de você."
         buttonLabel="Explorar trilhas"

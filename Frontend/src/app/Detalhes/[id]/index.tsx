@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { Button } from "../../../components/Button";
 import { trilhasMock, Dificuldade } from "../../../data/trilhas";
+import CardAvaliacao from "@/components/CardAvaliacao";
+import AvaliacaoForm from "@/components/AvaliacaoForm";
 
 const dificuldadeCores: Record<Dificuldade, string> = {
   Fácil: "#2E7D32",
@@ -26,6 +28,27 @@ export default function Detalhes() {
     );
   }
 
+  const [avaliacoes, setAvaliacoes] = useState(trilha.avaliacoes ?? []);
+  const [enviando, setEnviando] = useState(false);
+
+  function handleNovaAvaliacao(nota: number, comentario: string) {
+    setEnviando(true);
+
+    // POST /trilhas/{id}/feedbacks
+    setTimeout(() => {
+      setAvaliacoes((prev) => [
+        {
+          id: String(Date.now()),
+          nome: "Você",
+          nota,
+          comentario,
+          data: "agora",
+        },
+        ...prev,
+      ]);
+      setEnviando(false);
+    }, 800);
+  }
   return (
     <ScrollView style={styles.container} bounces={false}>
       <View style={styles.imageWrapper}>
@@ -136,6 +159,30 @@ export default function Detalhes() {
             </View>
           </View>
         )}
+      </View>
+      <View style={{ marginTop: 24, marginHorizontal: 16, marginBottom: 32 }}>
+        <View style={styles.avaliacoesHeader}>
+          <Text style={styles.destaquesTitle}>Avaliações e comentários</Text>
+
+          {avaliacoes.length > 0 && (
+            <View style={styles.mediaRow}>
+              <Ionicons name="star" size={16} color="#E9A400" />
+              <Text style={styles.mediaText}>
+                {(
+                  avaliacoes.reduce((soma, a) => soma + a.nota, 0) /
+                  avaliacoes.length
+                ).toFixed(1)}{" "}
+                ({avaliacoes.length})
+              </Text>
+            </View>
+          )}
+        </View>
+
+        <AvaliacaoForm onSubmit={handleNovaAvaliacao} loading={enviando} />
+
+        {avaliacoes.map((avaliacao) => (
+          <CardAvaliacao key={avaliacao.id} avaliacao={avaliacao} />
+        ))}
       </View>
     </ScrollView>
   );
