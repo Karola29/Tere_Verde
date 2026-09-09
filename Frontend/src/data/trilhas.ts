@@ -14,13 +14,14 @@ export interface Trilha {
   dificuldade: Dificuldade;
   distanciaKm: number;
   duracaoMin: number;
+  latitude: number;
+  longitude: number;
   descricao?: string;
   tipoTerreno?: string;
   melhorHorario?: string;
   destaques?: Destaque[];
   avaliacoes?: Avaliacao[];
 }
-
 export interface Avaliacao {
   id: string;
   nome: string;
@@ -73,6 +74,8 @@ export const trilhasMock: Trilha[] = [
         data: "há 1 mês",
       },
     ],
+    latitude: -22.4551,
+    longitude: -42.9908,
   },
   {
     id: "2",
@@ -92,6 +95,8 @@ export const trilhasMock: Trilha[] = [
       { icon: "walk", label: "Lazer" },
       { icon: "image", label: "Vista panorâmica" },
     ],
+    latitude: -22.4547,
+    longitude: -42.9926,
   },
   {
     id: "3",
@@ -111,6 +116,8 @@ export const trilhasMock: Trilha[] = [
       { icon: "camera", label: "Fotografia" },
       { icon: "trail-sign", label: "Mirante" },
     ],
+    latitude: -22.4569,
+    longitude: -42.994,
   },
   {
     id: "4",
@@ -130,6 +137,8 @@ export const trilhasMock: Trilha[] = [
       { icon: "fitness", label: "Desafiadora" },
       { icon: "camera", label: "Fotografia" },
     ],
+    latitude: -22.438,
+    longitude: -42.965,
   },
   {
     id: "5",
@@ -149,5 +158,7 @@ export const trilhasMock: Trilha[] = [
       { icon: "moon", label: "Pôr do sol" },
       { icon: "flag", label: "Tradicional" },
     ],
+    latitude: -22.4692,
+    longitude: -43.0119,
   },
 ];
