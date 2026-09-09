@@ -39,7 +39,7 @@ export default function Splash() {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        router.replace("/Home");
+        router.replace("/Login");
       });
     }, 1500);
 

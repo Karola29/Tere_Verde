@@ -6,19 +6,24 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { styles } from "./styles";
+import { styles } from "../../styles/login";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { useRouter } from "expo-router";
 
 type AuthMode = "login" | "cadastro";
 
 export default function Login() {
   const [mode, setMode] = useState<AuthMode>("login");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   function handleSubmit() {
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => {
+      setLoading(false);
+      router.replace("/Home" as any);
+    }, 2000);
   }
 
   return (

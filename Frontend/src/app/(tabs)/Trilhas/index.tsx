@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { styles } from "./styles";
+import { styles } from "../../../styles/trilhas";
 import SearchBar from "../../../components/SearchBar";
 import TrilhaListCard from "../../../components/TrilhaListCard";
 import { trilhasMock, Dificuldade } from "../../../data/trilhas";

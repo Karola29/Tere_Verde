@@ -31,35 +31,13 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="Explorar"
-        options={{
-          title: "Explorar",
-          tabBarIcon: () => null,
-          tabBarButton: (props: any) => (
-            <TouchableOpacity {...props} style={styles.exploreWrapper}>
-              <View style={styles.exploreButton}>
-                <Ionicons name="leaf" size={26} color="#fff" />
-              </View>
-            </TouchableOpacity>
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="Favoritos"
         options={{
           title: "Favoritos",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="heart-outline" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Perfil"
-        options={{
-          title: "Perfil",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
           ),
         }}
       />

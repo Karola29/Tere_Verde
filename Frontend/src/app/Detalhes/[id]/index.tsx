@@ -2,11 +2,12 @@ import { useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { styles } from "./styles";
+import { styles } from "../../../styles/detalhes";
 import { Button } from "../../../components/Button";
 import { trilhasMock, Dificuldade } from "../../../data/trilhas";
 import CardAvaliacao from "@/components/CardAvaliacao";
 import AvaliacaoForm from "@/components/AvaliacaoForm";
+import { useFavoritos } from "@/contexts/FavoritosContext";
 
 const dificuldadeCores: Record<Dificuldade, string> = {
   Fácil: "#2E7D32",
@@ -17,7 +18,7 @@ const dificuldadeCores: Record<Dificuldade, string> = {
 export default function Detalhes() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const [favorito, setFavorito] = useState(false);
+  const { isFavorito, toggleFavorito } = useFavoritos();
 
   const trilha = trilhasMock.find((t) => t.id === id);
   if (!trilha) {
@@ -64,10 +65,10 @@ export default function Detalhes() {
 
           <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => setFavorito((prev) => !prev)}
+            onPress={() => toggleFavorito(trilha.id)}
           >
             <Ionicons
-              name={favorito ? "heart" : "heart-outline"}
+              name={isFavorito(trilha.id) ? "heart" : "heart-outline"}
               size={20}
               color="#fff"
             />

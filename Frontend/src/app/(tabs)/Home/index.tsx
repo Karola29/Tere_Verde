@@ -6,7 +6,7 @@ import BenefitsSection from "../../../components/BenefitsSection";
 import TrilhasShelf from "@/components/TrilhasShelf";
 import SearchBar from "../../../components/SearchBar";
 import { trilhasMock } from "../../../data/trilhas";
-import { styles } from "./styles";
+import { styles } from "../../../styles/home";
 
 export default function Home() {
   const [search, setSearch] = useState("");
