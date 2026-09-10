@@ -141,7 +141,7 @@ export default function Detalhes() {
 
         <Button title="Como chegar" onPress={() => {}} />
 
-        {trilha.destaques && trilha.destaques.length > 0 && (
+        {/* {trilha.destaques && trilha.destaques.length > 0 && (
           <View style={{ marginTop: 24 }}>
             <Text style={styles.destaquesTitle}>Destaques</Text>
             <View style={styles.destaquesRow}>
@@ -159,7 +159,7 @@ export default function Detalhes() {
               ))}
             </View>
           </View>
-        )}
+        )} */}
       </View>
       <View style={{ marginTop: 24, marginHorizontal: 16, marginBottom: 32 }}>
         <View style={styles.avaliacoesHeader}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Image } from "react-native";
+import { View, Image, ScrollView } from "react-native";
 import { router } from "expo-router";
 import Banner from "../../../components/Banner";
 import BenefitsSection from "../../../components/BenefitsSection";
@@ -7,6 +7,7 @@ import TrilhasShelf from "@/components/TrilhasShelf";
 import SearchBar from "../../../components/SearchBar";
 import { trilhasMock } from "../../../data/trilhas";
 import { styles } from "../../../styles/home";
+import BiodiversidadeSection from "@/components/BiodiversidadeSection";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -19,7 +20,7 @@ export default function Home() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.header}>
         <Image
           source={require("../../../../assets/images/logo.png")}
@@ -57,6 +58,7 @@ export default function Home() {
           { icon: "camera", title: "Momentos inesquecíveis" },
         ]}
       />
-    </View>
+      <BiodiversidadeSection />
+    </ScrollView>
   );
 }
