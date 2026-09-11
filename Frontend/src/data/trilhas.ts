@@ -5,6 +5,15 @@ export interface Destaque {
   label: string;
 }
 
+export interface Evento {
+  id: string;
+  titulo: string;
+  data: string;
+  horario: string;
+  duracaoHoras?: number;
+  descricao?: string;
+}
+
 export interface Trilha {
   id: string;
   nome: string;
@@ -21,6 +30,7 @@ export interface Trilha {
   melhorHorario?: string;
   destaques?: Destaque[];
   avaliacoes?: Avaliacao[];
+  eventos?: Evento[];
 }
 export interface Avaliacao {
   id: string;
@@ -72,6 +82,17 @@ export const trilhasMock: Trilha[] = [
         nota: 5,
         comentario: "Perfeita para ir com crianças. Recomendo muito!",
         data: "há 1 mês",
+      },
+    ],
+    eventos: [
+      {
+        id: "e1",
+        titulo: "Caminhada em grupo — Trilha Suspensa",
+        data: "2026-10-18",
+        horario: "08:00",
+        duracaoHoras: 2,
+        descricao:
+          "Encontro guiado com monitores do PARNASO. Ponto de encontro na Praça da Barragem.",
       },
     ],
     latitude: -22.4551,

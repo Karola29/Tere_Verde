@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "../../../styles/detalhes";
@@ -8,6 +15,7 @@ import { trilhasMock, Dificuldade } from "../../../data/trilhas";
 import CardAvaliacao from "@/components/CardAvaliacao";
 import AvaliacaoForm from "@/components/AvaliacaoForm";
 import { useFavoritos } from "@/contexts/FavoritosContext";
+import EventoCard from "@/components/EventoCard";
 
 const dificuldadeCores: Record<Dificuldade, string> = {
   Fácil: "#2E7D32",
@@ -29,6 +37,10 @@ export default function Detalhes() {
     );
   }
 
+  function handleComoChegar() {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${trilha.latitude},${trilha.longitude}`;
+    Linking.openURL(url);
+  }
   const [avaliacoes, setAvaliacoes] = useState(trilha.avaliacoes ?? []);
   const [enviando, setEnviando] = useState(false);
 
@@ -139,27 +151,20 @@ export default function Detalhes() {
           )}
         </View>
 
-        <Button title="Como chegar" onPress={() => {}} />
+        <Button title="Como chegar" onPress={handleComoChegar} />
 
-        {/* {trilha.destaques && trilha.destaques.length > 0 && (
-          <View style={{ marginTop: 24 }}>
-            <Text style={styles.destaquesTitle}>Destaques</Text>
-            <View style={styles.destaquesRow}>
-              {trilha.destaques.map((destaque, index) => (
-                <View key={index} style={styles.destaqueItem}>
-                  <View style={styles.destaqueIconWrapper}>
-                    <Ionicons
-                      name={destaque.icon as any}
-                      size={22}
-                      color="#2E7D32"
-                    />
-                  </View>
-                  <Text style={styles.destaqueLabel}>{destaque.label}</Text>
-                </View>
-              ))}
-            </View>
+        {trilha.eventos && trilha.eventos.length > 0 && (
+          <View style={{ marginTop: 20 }}>
+            <Text style={styles.destaquesTitle}>Próximos eventos</Text>
+            {trilha.eventos.map((evento) => (
+              <EventoCard
+                key={evento.id}
+                evento={evento}
+                localizacao={trilha.localizacao}
+              />
+            ))}
           </View>
-        )} */}
+        )}
       </View>
       <View style={{ marginTop: 24, marginHorizontal: 16, marginBottom: 32 }}>
         <View style={styles.avaliacoesHeader}>
