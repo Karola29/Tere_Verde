@@ -32,11 +32,12 @@ Tere-Verde/
 │   ├── app/
 │   ├── assets/
 │   ├── components/
-│   ├── ...
 │   └── package.json
 │
 ├── Backend/
-│   ├── ...
+│   ├── database.py
+│   ├── seed.py
+│   ├── app.py
 │   └── ...
 │
 └── README.md
@@ -52,7 +53,6 @@ Tere-Verde/
 * Expo
 * Expo Router
 * TypeScript
-* JavaScript/TypeScript
 
 ## Backend
 
@@ -73,49 +73,130 @@ Tere-Verde/
 
 # 🚀 Como executar o projeto
 
-Para executar o aplicativo corretamente, é necessário **iniciar o Backend antes do Frontend**.
+Para executar o Tere Verde corretamente, é necessário **iniciar o Backend primeiro** e depois executar o Frontend.
 
-## 1. 📱 Instalar o Expo Go
+A ordem é:
 
-No celular Android, instale o **Expo Go**.
-
-### Download do APK
-
-[Baixar Expo Go 57.0.9](https://github.com/expo/expo-go-releases/releases/download/Expo-Go-57.0.9/Expo-Go-57.0.9.apk?utm_source=chatgpt.com)
-
-> **Observação:** o link acima é o APK utilizado atualmente pelo projeto. Caso o projeto passe a utilizar outra versão do Expo Go, atualize este link.
+```text
+🖥️ Backend
+   ↓
+🌐 API Flask
+   ↓
+📱 Frontend Mobile
+   ↓
+📲 Expo Go
+```
 
 ---
 
-# 2. 🖥️ Iniciar o Backend
+# 🖥️ Como rodar o Backend
 
-Antes de executar o aplicativo, é necessário iniciar o **Backend/API**.
+## 1. Entrar na pasta do Backend
 
-Entre na pasta do Backend:
+Abra o terminal na pasta do projeto e entre no diretório do Backend:
 
 ```bash
 cd Backend
 ```
 
-Depois, siga as instruções específicas do README/documentação do Backend para iniciar a API.
+---
 
-O Backend deve estar funcionando antes de iniciar o Frontend.
+## 2. Criar o ambiente virtual
 
-### Fluxo:
+Execute:
+
+```bash
+python -m venv venv
+```
+
+Isso cria um ambiente virtual Python para o projeto.
+
+---
+
+## 3. Ativar o ambiente virtual
+
+No Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Após ativar, o terminal deverá apresentar algo parecido com:
 
 ```text
-Backend
-   ↓
-API Flask
-   ↓
-Frontend Mobile
+(venv) C:\...\Tere-Verde\Backend>
 ```
 
 ---
 
-# 3. 📂 Entrar na pasta Frontend
+## 4. Instalar o Flask
 
-Depois que o Backend estiver funcionando, abra outro terminal e entre na pasta:
+Com o ambiente virtual ativado, execute:
+
+```bash
+pip install Flask
+```
+
+---
+
+## 5. Criar o banco de dados
+
+Execute:
+
+```bash
+python database.py
+```
+
+Esse comando executa a configuração/criação do banco de dados utilizada pelo projeto.
+
+---
+
+## 6. Inserir os dados iniciais
+
+Execute:
+
+```bash
+python seed.py
+```
+
+O `seed.py` é responsável por inserir os dados iniciais necessários para o funcionamento do sistema.
+
+---
+
+## 7. Iniciar a API
+
+Por último, execute:
+
+```bash
+python app.py
+```
+
+A API Flask será iniciada.
+
+Mantenha esse terminal **aberto e executando** enquanto estiver utilizando o Frontend.
+
+---
+
+## 📋 Comandos completos do Backend
+
+Depois de entrar na pasta `Backend`, os comandos são:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install Flask
+python database.py
+python seed.py
+python app.py
+```
+
+---
+
+# 📱 Como rodar o Frontend
+
+Depois que o Backend estiver funcionando, abra **outro terminal**.
+
+## 1. Entrar na pasta Frontend
 
 ```bash
 cd Frontend
@@ -123,148 +204,189 @@ cd Frontend
 
 ---
 
-# 4. 📦 Instalar as dependências
+## 2. Instalar as dependências
 
-Dentro da pasta `Frontend`, execute:
+Execute:
 
 ```bash
 npm install
 ```
 
-Esse comando instala todas as dependências necessárias para executar o aplicativo.
-
 ---
 
-# 5. 🔧 Corrigir/atualizar dependências do Expo
+## 3. Corrigir as dependências do Expo
 
-Após instalar as dependências, execute:
+Execute:
 
 ```bash
 npx expo install --fix
 ```
 
-Esse comando verifica e ajusta as versões das dependências para serem compatíveis com a versão do Expo utilizada no projeto.
-
 ---
 
-# 6. ▶️ Iniciar o Frontend
+## 4. Iniciar o Expo
 
-Agora execute:
+Execute:
 
 ```bash
 npx expo start
 ```
 
-O Expo iniciará o servidor de desenvolvimento.
-
-No terminal será exibido um **QR Code**.
-
-Exemplo:
-
-```text
-› Metro waiting on exp://192.168.x.x:8081
-
-› Scan the QR code above with Expo Go
-```
+Após executar o comando, será exibido um **QR Code no terminal**.
 
 ---
 
-# 7. 📲 Abrir o aplicativo no celular
+# 📲 Abrir o aplicativo no celular
 
-Com o **Expo Go instalado no celular**:
+## 1. Instalar o Expo Go
 
-1. Abra o aplicativo **Expo Go**.
-2. Utilize a opção para escanear o QR Code.
-3. Escaneie o QR Code exibido no terminal.
-4. Aguarde o carregamento do projeto.
-5. O **Tere Verde** será aberto no celular.
+Instale o **Expo Go** no celular.
+
+### Android
+
+[Baixar Expo Go 57.0.9 (APK)](https://github.com/expo/expo-go-releases/releases/download/Expo-Go-57.0.9/Expo-Go-57.0.9.apk?utm_source=chatgpt.com)
 
 ---
 
-# ⚠️ Importante: conexão com o computador
+## 2. Escanear o QR Code
 
-Para o celular conseguir acessar o servidor de desenvolvimento, normalmente o **computador e o celular precisam estar na mesma rede Wi-Fi**.
+Com o Expo Go instalado:
 
-Exemplo:
+1. Abra o **Expo Go** no celular.
+2. Escaneie o **QR Code** exibido no terminal.
+3. Aguarde o carregamento.
+4. O aplicativo **Tere Verde** será aberto.
+
+---
+
+# ⚠️ Importante
+
+Para o Frontend conseguir se comunicar corretamente com o computador durante o desenvolvimento, o **celular e o computador devem estar conectados à mesma rede Wi-Fi**.
 
 ```text
 📱 Celular
-   │
-   │ Wi-Fi
-   │
+     │
+     │ Wi-Fi
+     ↓
 📶 Roteador
-   │
-   │ Wi-Fi
-   │
+     ↑
+     │ Wi-Fi
+     │
 💻 Computador
+     │
+     ↓
+🌐 Backend / API
 ```
 
-Se o QR Code for escaneado e o aplicativo não conseguir carregar, verifique primeiro se o celular e o computador estão conectados à mesma rede.
+Além disso, o **Backend deve estar rodando antes do Frontend**.
 
 ---
 
-# 🔄 Resumo rápido
+# 🔄 Ordem completa para executar
 
-Para executar o projeto:
-
-### 1️⃣ Instale o Expo Go
-
-Baixe e instale o APK no celular.
-
-### 2️⃣ Inicie o Backend
-
-O Backend deve estar funcionando primeiro.
-
-### 3️⃣ Entre no Frontend
+### 🖥️ Terminal 1 — Backend
 
 ```bash
-cd Frontend
+cd Backend
+
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install Flask
+
+python database.py
+
+python seed.py
+
+python app.py
 ```
 
-### 4️⃣ Instale as dependências
-
-```bash
-npm install
-```
-
-### 5️⃣ Ajuste as dependências do Expo
-
-```bash
-npx expo install --fix
-```
-
-### 6️⃣ Inicie o projeto
-
-```bash
-npx expo start
-```
-
-### 7️⃣ Escaneie o QR Code
-
-Abra o **Expo Go** no celular e escaneie o QR Code mostrado no terminal.
+**Não feche esse terminal.**
 
 ---
 
-# 📋 Comandos completos
-
-Se o Backend já estiver configurado e funcionando:
+### 💻 Terminal 2 — Frontend
 
 ```bash
 cd Frontend
+
 npm install
+
 npx expo install --fix
+
 npx expo start
 ```
 
-Depois:
+---
+
+### 📱 Celular
 
 ```text
-📱 Abrir Expo Go
+Abrir Expo Go
        ↓
-📷 Escanear QR Code
+Escanear QR Code
        ↓
 🌿 Tere Verde
 ```
+
+---
+
+# 🌐 Arquitetura
+
+A comunicação do projeto segue a estrutura:
+
+```text
+┌───────────────────┐
+│   📱 FRONTEND     │
+│   React Native    │
+│      + Expo       │
+└─────────┬─────────┘
+          │
+          │ HTTP / JSON
+          ↓
+┌───────────────────┐
+│   🌐 BACKEND      │
+│      Flask        │
+│    Python         │
+└─────────┬─────────┘
+          │
+          ↓
+┌───────────────────┐
+│ 🗄️ BANCO DE DADOS │
+└───────────────────┘
+```
+
+---
+
+# 🌿 Funcionalidades
+
+* 🏠 Página inicial
+* 🥾 Lista de trilhas
+* 📖 Detalhes das trilhas
+* ⚠️ Avisos
+* ⭐ Feedbacks e avaliações
+* 🔍 Filtros
+* 👤 Perfil do usuário
+* 🔐 Autenticação
+
+---
+
+# 🔮 Melhorias futuras
+
+Funcionalidades que poderão ser adicionadas em versões futuras:
+
+* 🗺️ Mapa interativo das trilhas
+* 📍 GPS em tempo real
+* 🧭 Navegação durante a trilha
+* 📴 Mapas offline
+* ⭐ Trilhas favoritas
+* 🏆 Conquistas e medalhas
+* 📜 Histórico de trilhas realizadas
+* 🌦️ Informações climáticas
+* 🔔 Notificações
+* 📷 Upload de fotos
+* 🚨 Sistema de emergência
 
 ---
 
@@ -284,40 +406,7 @@ Responsável pelo fluxo do usuário, requisitos, organização dos dados, testes
 
 ---
 
-# 🌿 Funcionalidades previstas
-
-* 🏠 Página inicial
-* 🥾 Lista de trilhas
-* 📖 Detalhes das trilhas
-* ⚠️ Avisos
-* ⭐ Feedbacks e avaliações
-* 🔍 Filtros
-* 👤 Perfil do usuário
-* 🔐 Autenticação
-
----
-
-# 🔮 Melhorias futuras
-
-Algumas funcionalidades poderão ser adicionadas em versões futuras:
-
-* 🗺️ Mapa interativo
-* 📍 GPS em tempo real
-* 🧭 Navegação durante a trilha
-* 📴 Mapas offline
-* ⭐ Trilhas favoritas
-* 🏆 Conquistas e medalhas
-* 📜 Histórico de trilhas
-* 🌦️ Informações climáticas
-* 🔔 Notificações
-* 📷 Upload de fotos
-* 🚨 Sistema de emergência
-
----
-
 # 📚 Documentação
-
-A documentação do projeto poderá incluir:
 
 ```text
 docs/
@@ -333,6 +422,7 @@ docs/
 
 # 🌱 TERE VERDE
 
-**Explore. Descubra. Preserve.**
+### Explore. Descubra. Preserve.
 
-Projeto acadêmico desenvolvido para promover o acesso organizado a informações sobre trilhas e áreas naturais de Teresópolis – RJ.
+Projeto acadêmico desenvolvido para promover o acesso organizado a informações sobre trilhas e áreas naturais de **Teresópolis – RJ**.
+
