@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,23 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "../../../styles/detalhes";
 import { Button } from "../../../components/Button";
-import { trilhasMock, Dificuldade } from "../../../data/trilhas";
+import { Dificuldade, Evento } from "../../../data/trilhas";
+import { resolveImage } from "../../../data/imageGallery";
 import CardAvaliacao from "@/components/CardAvaliacao";
 import AvaliacaoForm from "@/components/AvaliacaoForm";
 import { useFavoritos } from "@/contexts/FavoritosContext";
+import { useTrilhas } from "@/contexts/TrilhasContext";
+import { useAuth } from "@/contexts/AuthContext";
 import EventoCard from "@/components/EventoCard";
+import { fetchEventos, criarAvaliacaoAPI } from "@/services/trilhas";
+import ConexaoErro from "@/components/ConexaoErro";
 
 const dificuldadeCores: Record<Dificuldade, string> = {
   Fácil: "#2E7D32",
@@ -27,45 +34,89 @@ export default function Detalhes() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { isFavorito, toggleFavorito } = useFavoritos();
+  const { getTrilha, loading, erro, recarregar } = useTrilhas();
+  const { token } = useAuth();
 
-  const trilha = trilhasMock.find((t) => t.id === id);
-  if (!trilha) {
+  const trilha = getTrilha(id ?? "");
+
+  const [avaliacoes, setAvaliacoes] = useState(trilha?.avaliacoes ?? []);
+  const [enviando, setEnviando] = useState(false);
+  const [eventos, setEventos] = useState<Evento[]>([]);
+
+  useEffect(() => {
+    if (trilha) setAvaliacoes(trilha.avaliacoes ?? []);
+  }, [trilha]);
+
+  useEffect(() => {
+    if (!trilha) return;
+    fetchEventos(trilha.id)
+      .then((dados) =>
+        setEventos(
+          dados.map((e) => ({
+            id: e.id,
+            titulo: e.nome,
+            data: e.data,
+            horario: e.horario,
+            descricao: e.descricao ?? undefined,
+          })),
+        ),
+      )
+      .catch(() => setEventos([]));
+  }, [trilha?.id]);
+
+  if (loading) {
     return (
-      <View style={styles.container}>
-        <Text>Trilha não encontrada.</Text>
+      <View
+        style={[
+          styles.container,
+          { alignItems: "center", justifyContent: "center" },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#2E7D32" />
       </View>
     );
   }
 
-  function handleComoChegar() {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${trilha.latitude},${trilha.longitude}`;
-    Linking.openURL(url);
+  if (!trilha) {
+    return (
+      <View style={styles.container}>
+        {erro ? (
+          <ConexaoErro mensagem={erro} onTentarNovamente={recarregar} />
+        ) : (
+          <Text>Trilha não encontrada.</Text>
+        )}
+      </View>
+    );
   }
-  const [avaliacoes, setAvaliacoes] = useState(trilha.avaliacoes ?? []);
-  const [enviando, setEnviando] = useState(false);
 
-  function handleNovaAvaliacao(nota: number, comentario: string) {
+  async function handleNovaAvaliacao(nota: number, comentario: string) {
+    if (!token) {
+      Alert.alert("Login necessário", "Faça login para avaliar esta trilha.");
+      return;
+    }
+
     setEnviando(true);
-
-    // POST /trilhas/{id}/feedbacks
-    setTimeout(() => {
-      setAvaliacoes((prev) => [
-        {
-          id: String(Date.now()),
-          nome: "Você",
-          nota,
-          comentario,
-          data: "agora",
-        },
-        ...prev,
-      ]);
+    try {
+      await criarAvaliacaoAPI(trilha.id, { nota, comentario }, token);
+      await recarregar();
+    } catch (erro: any) {
+      Alert.alert(
+        "Erro",
+        erro.message ?? "Não foi possível enviar sua avaliação.",
+      );
+    } finally {
       setEnviando(false);
-    }, 800);
+    }
   }
+
   return (
     <ScrollView style={styles.container} bounces={false}>
       <View style={styles.imageWrapper}>
-        <Image source={trilha.imagem} style={styles.image} resizeMode="cover" />
+        <Image
+          source={resolveImage(trilha.imagem)}
+          style={styles.image}
+          resizeMode="cover"
+        />
 
         <View style={styles.topBar}>
           <TouchableOpacity
@@ -151,12 +202,10 @@ export default function Detalhes() {
           )}
         </View>
 
-        <Button title="Como chegar" onPress={handleComoChegar} />
-
-        {trilha.eventos && trilha.eventos.length > 0 && (
+        {eventos.length > 0 && (
           <View style={{ marginTop: 20 }}>
             <Text style={styles.destaquesTitle}>Próximos eventos</Text>
-            {trilha.eventos.map((evento) => (
+            {eventos.map((evento) => (
               <EventoCard
                 key={evento.id}
                 evento={evento}

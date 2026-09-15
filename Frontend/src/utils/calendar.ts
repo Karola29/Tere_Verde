@@ -16,7 +16,7 @@ function formatarData(data: Date): string {
 export function montarLinkCalendario(evento: Evento, localizacao: string) {
   const inicio = new Date(`${evento.data}T${evento.horario}:00`);
   const fim = new Date(inicio);
-  fim.setHours(fim.getHours() + (evento.duracaoHoras ?? 3));
+  fim.setHours(fim.getHours() + 3);
 
   const params = new URLSearchParams({
     action: "TEMPLATE",

@@ -14,9 +14,10 @@ type InputType = "text" | "email" | "password" | "number";
 interface InputProps extends Omit<TextInputProps, "secureTextEntry"> {
   label: string;
   type?: InputType;
+  error?: string;
 }
 
-export function Input({ label, type = "text", ...rest }: InputProps) {
+export function Input({ label, type = "text", error, ...rest }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
@@ -31,7 +32,7 @@ export function Input({ label, type = "text", ...rest }: InputProps) {
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
 
-      <View style={styles.inputWrapper}>
+      <View style={[styles.inputWrapper, error && styles.inputWrapperErro]}>
         <TextInput
           style={styles.input}
           secureTextEntry={isPassword && !showPassword}
@@ -54,6 +55,8 @@ export function Input({ label, type = "text", ...rest }: InputProps) {
           </TouchableOpacity>
         )}
       </View>
+
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }

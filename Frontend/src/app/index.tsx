@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { useAuth } from "../contexts/AuthContext";
 
 const { height } = Dimensions.get("window");
 
@@ -16,9 +17,11 @@ const LOGO_SIZE_END = 70;
 
 export default function Splash() {
   const router = useRouter();
+  const { token, carregandoSessao } = useAuth();
   const translateY = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
+  const [animacaoConcluida, setAnimacaoConcluida] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,13 +41,17 @@ export default function Splash() {
           duration: 350,
           useNativeDriver: true,
         }),
-      ]).start(() => {
-        router.replace("/Login");
-      });
+      ]).start(() => setAnimacaoConcluida(true));
     }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (animacaoConcluida && !carregandoSessao) {
+      router.replace(token ? "/Home" : "/Login");
+    }
+  }, [animacaoConcluida, carregandoSessao, token]);
 
   return (
     <ImageBackground
@@ -70,24 +77,10 @@ export default function Splash() {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.55)",
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    width: LOGO_SIZE_START,
-    height: LOGO_SIZE_START,
-  },
+  background: { flex: 1, width: "100%", height: "100%" },
+  overlay: { flex: 1, backgroundColor: "rgba(255, 255, 255, 0.55)" },
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  logo: { width: LOGO_SIZE_START, height: LOGO_SIZE_START },
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -95,9 +88,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 12,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#555",
-    textAlign: "center",
-  },
+  subtitle: { fontSize: 14, color: "#555", textAlign: "center" },
 });

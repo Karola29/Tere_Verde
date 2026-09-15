@@ -5,11 +5,13 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { styles } from "../../styles/login";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useRouter } from "expo-router";
+import { useAuth } from "../../contexts/AuthContext";
 
 type AuthMode = "login" | "cadastro";
 
@@ -17,13 +19,42 @@ export default function Login() {
   const [mode, setMode] = useState<AuthMode>("login");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login, cadastrar } = useAuth();
 
-  function handleSubmit() {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
+  async function handleSubmit() {
+    if (!email.trim() || !senha.trim()) {
+      Alert.alert("Ops", "Preencha e-mail e senha.");
+      return;
+    }
+    if (mode === "cadastro") {
+      if (!nome.trim()) {
+        Alert.alert("Ops", "Preencha seu nome completo.");
+        return;
+      }
+      if (senha !== confirmarSenha) {
+        Alert.alert("Ops", "As senhas não coincidem.");
+        return;
+      }
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      if (mode === "login") {
+        await login(email.trim(), senha);
+      } else {
+        await cadastrar(nome.trim(), email.trim(), senha);
+      }
       router.replace("/Home" as any);
-    }, 2000);
+    } catch (erro: any) {
+      Alert.alert("Erro", erro.message ?? "Não foi possível continuar.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -73,17 +104,37 @@ export default function Login() {
             </View>
 
             {mode === "cadastro" && (
-              <Input label="Nome completo" type="text" placeholder="Seu nome" />
+              <Input
+                label="Nome completo"
+                type="text"
+                placeholder="Seu nome"
+                value={nome}
+                onChangeText={setNome}
+              />
             )}
 
-            <Input label="E-mail" type="email" placeholder="seu@email.com" />
-            <Input label="Senha" type="password" placeholder="●●●●●●●" />
+            <Input
+              label="E-mail"
+              type="email"
+              placeholder="seu@email.com"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <Input
+              label="Senha"
+              type="password"
+              placeholder="●●●●●●●"
+              value={senha}
+              onChangeText={setSenha}
+            />
 
             {mode === "cadastro" && (
               <Input
                 label="Confirmar senha"
                 type="password"
                 placeholder="●●●●●●●"
+                value={confirmarSenha}
+                onChangeText={setConfirmarSenha}
               />
             )}
 

@@ -5,12 +5,14 @@ import Banner from "../../../components/Banner";
 import BenefitsSection from "../../../components/BenefitsSection";
 import TrilhasShelf from "@/components/TrilhasShelf";
 import SearchBar from "../../../components/SearchBar";
-import { trilhasMock } from "../../../data/trilhas";
 import { styles } from "../../../styles/home";
 import BiodiversidadeSection from "@/components/BiodiversidadeSection";
+import { useTrilhas } from "../../../contexts/TrilhasContext";
+import ConexaoErro from "@/components/ConexaoErro";
 
 export default function Home() {
   const [search, setSearch] = useState("");
+  const { trilhas, erro, recarregar } = useTrilhas();
 
   function handleSearch() {
     router.push({
@@ -42,14 +44,18 @@ export default function Home() {
         onPress={() => router.push("/Trilhas" as any)}
       />
 
-      <TrilhasShelf
-        title="Trilhas em destaque"
-        trilhas={trilhasMock}
-        onVerTodas={() => router.push("/Trilhas" as any)}
-        onSelectTrilha={(trilha) =>
-          router.push(`/Detalhes/${trilha.id}` as any)
-        }
-      />
+      {erro ? (
+        <ConexaoErro mensagem={erro} onTentarNovamente={recarregar} />
+      ) : (
+        <TrilhasShelf
+          title="Trilhas em destaque"
+          trilhas={trilhas}
+          onVerTodas={() => router.push("/Trilhas" as any)}
+          onSelectTrilha={(trilha) =>
+            router.push(`/Detalhes/${trilha.id}` as any)
+          }
+        />
+      )}
       <BenefitsSection
         benefits={[
           { icon: "leaf", title: "Conexão com a natureza" },

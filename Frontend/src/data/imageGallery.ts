@@ -7,7 +7,9 @@ export const imageGallery: Record<string, any> = {
 };
 
 export function resolveImage(key: string) {
-  return imageGallery[key] ?? imageGallery["trilha-suspensa"];
+  if (!key) return imageGallery["trilha-suspensa"];
+  const chave = key.replace(/\.(jpg|jpeg|png)$/i, "");
+  return imageGallery[chave] ?? imageGallery["trilha-suspensa"];
 }
 
 export const imageGalleryKeys = Object.keys(imageGallery);

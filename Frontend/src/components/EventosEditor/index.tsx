@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { Evento } from "../../data/trilhas";
@@ -13,7 +13,6 @@ const EVENTO_VAZIO = {
   titulo: "",
   data: "",
   horario: "",
-  duracaoHoras: "",
   descricao: "",
 };
 
@@ -31,22 +30,25 @@ export default function EventosEditor({ value, onChange }: EventosEditorProps) {
       titulo: evento.titulo,
       data: evento.data,
       horario: evento.horario,
-      duracaoHoras: String(evento.duracaoHoras ?? ""),
       descricao: evento.descricao ?? "",
     });
     setEditando(evento.id);
   }
 
   function salvar() {
-    if (!form.titulo.trim() || !form.data.trim() || !form.horario.trim())
+    if (!form.titulo.trim() || !form.data.trim() || !form.horario.trim()) {
+      Alert.alert(
+        "Campos obrigatórios",
+        "Preencha título, data e horário do evento antes de salvar.",
+      );
       return;
+    }
 
     const dados: Evento = {
-      id: editando === "novo" ? String(Date.now()) : editando!,
+      id: editando === "novo" ? `novo-${Date.now()}` : editando!,
       titulo: form.titulo.trim(),
       data: form.data.trim(),
       horario: form.horario.trim(),
-      duracaoHoras: form.duracaoHoras ? Number(form.duracaoHoras) : undefined,
       descricao: form.descricao.trim() || undefined,
     };
 
@@ -115,13 +117,6 @@ export default function EventosEditor({ value, onChange }: EventosEditorProps) {
               onChangeText={(v) => setForm({ ...form, horario: v })}
             />
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder="Duração em horas (opcional)"
-            keyboardType="numeric"
-            value={form.duracaoHoras}
-            onChangeText={(v) => setForm({ ...form, duracaoHoras: v })}
-          />
           <TextInput
             style={styles.input}
             placeholder="Descrição (opcional)"

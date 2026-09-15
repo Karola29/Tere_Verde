@@ -4,7 +4,9 @@ import { useLocalSearchParams, router } from "expo-router";
 import { styles } from "../../../styles/trilhas";
 import SearchBar from "../../../components/SearchBar";
 import TrilhaListCard from "../../../components/TrilhaListCard";
-import { trilhasMock, Dificuldade } from "../../../data/trilhas";
+import { Dificuldade } from "../../../data/trilhas";
+import { useTrilhas } from "../../../contexts/TrilhasContext";
+import ConexaoErro from "@/components/ConexaoErro";
 
 type FiltroDificuldade = "Todas" | Dificuldade;
 
@@ -14,6 +16,7 @@ export default function Trilhas() {
   const params = useLocalSearchParams<{ q?: string }>();
   const [search, setSearch] = useState(params.q ?? "");
   const [filtro, setFiltro] = useState<FiltroDificuldade>("Todas");
+  const { trilhas, erro, recarregar } = useTrilhas();
 
   useEffect(() => {
     if (params.q) setSearch(params.q);
@@ -22,7 +25,7 @@ export default function Trilhas() {
   const trilhasFiltradas = useMemo(() => {
     const termo = search.trim().toLowerCase();
 
-    return trilhasMock.filter((trilha) => {
+    return trilhas.filter((trilha) => {
       const combinaBusca =
         !termo ||
         trilha.nome.toLowerCase().includes(termo) ||
@@ -32,7 +35,7 @@ export default function Trilhas() {
 
       return combinaBusca && combinaFiltro;
     });
-  }, [search, filtro]);
+  }, [trilhas, search, filtro]);
 
   return (
     <View style={styles.container}>
@@ -46,42 +49,48 @@ export default function Trilhas() {
       </View>
       <SearchBar value={search} onChangeText={setSearch} />
 
-      <View style={styles.filtrosRow}>
-        {filtros.map((item) => (
-          <TouchableOpacity
-            key={item}
-            style={[
-              styles.filtroChip,
-              filtro === item && styles.filtroChipAtivo,
-            ]}
-            onPress={() => setFiltro(item)}
-          >
-            <Text
-              style={[
-                styles.filtroText,
-                filtro === item && styles.filtroTextAtivo,
-              ]}
-            >
-              {item}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {erro ? (
+        <ConexaoErro mensagem={erro} onTentarNovamente={recarregar} />
+      ) : (
+        <>
+          <View style={styles.filtrosRow}>
+            {filtros.map((item) => (
+              <TouchableOpacity
+                key={item}
+                style={[
+                  styles.filtroChip,
+                  filtro === item && styles.filtroChipAtivo,
+                ]}
+                onPress={() => setFiltro(item)}
+              >
+                <Text
+                  style={[
+                    styles.filtroText,
+                    filtro === item && styles.filtroTextAtivo,
+                  ]}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
-      <FlatList
-        data={trilhasFiltradas}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        renderItem={({ item }) => (
-          <TrilhaListCard
-            trilha={item}
-            onPress={() => router.push(`/Detalhes/${item.id}` as any)}
+          <FlatList
+            data={trilhasFiltradas}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContent}
+            renderItem={({ item }) => (
+              <TrilhaListCard
+                trilha={item}
+                onPress={() => router.push(`/Detalhes/${item.id}` as any)}
+              />
+            )}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>Nenhuma trilha encontrada.</Text>
+            }
           />
-        )}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhuma trilha encontrada.</Text>
-        }
-      />
+        </>
+      )}
     </View>
   );
 }

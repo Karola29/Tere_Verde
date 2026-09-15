@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import { router } from "expo-router";
 import ScreenHeader from "../../../components/ScreenHeader";
 import TrilhaForm, { TrilhaFormData } from "../../../components/TrilhaForm";
@@ -9,11 +9,19 @@ export default function AdminNovaTrilha() {
   const { addTrilha } = useTrilhas();
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(dados: TrilhaFormData) {
+  async function handleSubmit(dados: TrilhaFormData) {
     setLoading(true);
-    addTrilha(dados);
-    setLoading(false);
-    router.back();
+    try {
+      await addTrilha(dados);
+      router.back();
+    } catch (erro: any) {
+      Alert.alert(
+        "Erro ao criar trilha",
+        erro.message ?? "Não foi possível criar a trilha. Tente novamente.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

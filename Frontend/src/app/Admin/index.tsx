@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ScreenHeader from "../../components/ScreenHeader";
 import { styles } from "../../styles/adminLista";
 import { useTrilhas } from "../../contexts/TrilhasContext";
-import { imageGallery } from "../../data/imageGallery";
+import { resolveImage } from "../../data/imageGallery";
 
 export default function AdminLista() {
   const { trilhas, deleteTrilha } = useTrilhas();
@@ -52,7 +52,7 @@ export default function AdminLista() {
           renderItem={({ item }) => (
             <View style={styles.card}>
               <Image
-                source={imageGallery[item.imagem]}
+                source={resolveImage(item.imagem)}
                 style={styles.image}
                 resizeMode="cover"
               />

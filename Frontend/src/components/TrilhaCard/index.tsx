@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import { Trilha, Dificuldade } from "../../data/trilhas";
+import { resolveImage } from "../../data/imageGallery";
 
 const dificuldadeCores: Record<Dificuldade, string> = {
   Fácil: "#2E7D32",
@@ -18,7 +19,11 @@ export default function TrilhaCard({ trilha, onPress }: TrilhaCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.imageWrapper}>
-        <Image source={trilha.imagem} style={styles.image} resizeMode="cover" />
+        <Image
+          source={resolveImage(trilha.imagem)}
+          style={styles.image}
+          resizeMode="cover"
+        />
         <View
           style={[
             styles.badge,

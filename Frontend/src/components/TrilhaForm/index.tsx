@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { styles } from "./styles";
 import { Input } from "../Input";
 import { Button } from "../Button";
@@ -16,6 +16,13 @@ interface TrilhaFormProps {
   onSubmit: (dados: TrilhaFormData) => void;
   onDelete?: () => void;
   loading?: boolean;
+}
+
+interface Erros {
+  nome?: string;
+  localizacao?: string;
+  distanciaKm?: string;
+  duracaoMin?: string;
 }
 
 export default function TrilhaForm({
@@ -40,10 +47,6 @@ export default function TrilhaForm({
   const [duracaoMin, setDuracaoMin] = useState(
     String(initialData?.duracaoMin ?? ""),
   );
-  const [latitude, setLatitude] = useState(String(initialData?.latitude ?? ""));
-  const [longitude, setLongitude] = useState(
-    String(initialData?.longitude ?? ""),
-  );
   const [descricao, setDescricao] = useState(initialData?.descricao ?? "");
   const [tipoTerreno, setTipoTerreno] = useState(
     initialData?.tipoTerreno ?? "",
@@ -52,17 +55,50 @@ export default function TrilhaForm({
     initialData?.melhorHorario ?? "",
   );
   const [eventos, setEventos] = useState(initialData?.eventos ?? []);
+  const [erros, setErros] = useState<Erros>({});
+
+  function validar(): Erros {
+    const novosErros: Erros = {};
+
+    if (!nome.trim()) {
+      novosErros.nome = "Preencha o nome da trilha.";
+    }
+    if (!localizacao.trim()) {
+      novosErros.localizacao = "Preencha a localização.";
+    }
+
+    const distanciaNumero = Number(distanciaKm.replace(",", "."));
+    if (!distanciaKm.trim() || isNaN(distanciaNumero) || distanciaNumero <= 0) {
+      novosErros.distanciaKm = "Informe uma distância válida.";
+    }
+
+    const duracaoNumero = Number(duracaoMin);
+    if (!duracaoMin.trim() || isNaN(duracaoNumero) || duracaoNumero <= 0) {
+      novosErros.duracaoMin = "Informe uma duração válida.";
+    }
+
+    return novosErros;
+  }
 
   function handleSubmit() {
+    const novosErros = validar();
+    setErros(novosErros);
+
+    if (Object.keys(novosErros).length > 0) {
+      Alert.alert(
+        "Campos obrigatórios",
+        "Preencha corretamente os campos destacados antes de continuar.",
+      );
+      return;
+    }
+
     onSubmit({
       nome: nome.trim(),
       localizacao: localizacao.trim(),
       imagem,
       dificuldade,
-      distanciaKm: Number(distanciaKm) || 0,
-      duracaoMin: Number(duracaoMin) || 0,
-      latitude: Number(latitude) || 0,
-      longitude: Number(longitude) || 0,
+      distanciaKm: Number(distanciaKm.replace(",", ".")),
+      duracaoMin: Number(duracaoMin),
       descricao: descricao.trim() || undefined,
       tipoTerreno: tipoTerreno.trim() || undefined,
       melhorHorario: melhorHorario.trim() || undefined,
@@ -82,6 +118,7 @@ export default function TrilhaForm({
           value={nome}
           onChangeText={setNome}
           placeholder="Ex: Trilha do Mirante"
+          error={erros.nome}
         />
       </View>
 
@@ -91,6 +128,7 @@ export default function TrilhaForm({
           value={localizacao}
           onChangeText={setLocalizacao}
           placeholder="Ex: PARNASO - Sede"
+          error={erros.localizacao}
         />
       </View>
 
@@ -136,6 +174,7 @@ export default function TrilhaForm({
             value={distanciaKm}
             onChangeText={setDistanciaKm}
             placeholder="Ex: 2.3"
+            error={erros.distanciaKm}
           />
         </View>
         <View style={styles.spacer} />
@@ -146,28 +185,7 @@ export default function TrilhaForm({
             value={duracaoMin}
             onChangeText={setDuracaoMin}
             placeholder="Ex: 60"
-          />
-        </View>
-      </View>
-
-      <View style={[styles.section, styles.row]}>
-        <View style={styles.half}>
-          <Input
-            label="Latitude"
-            type="number"
-            value={latitude}
-            onChangeText={setLatitude}
-            placeholder="Ex: -22.4551"
-          />
-        </View>
-        <View style={styles.spacer} />
-        <View style={styles.half}>
-          <Input
-            label="Longitude"
-            type="number"
-            value={longitude}
-            onChangeText={setLongitude}
-            placeholder="Ex: -42.9908"
+            error={erros.duracaoMin}
           />
         </View>
       </View>

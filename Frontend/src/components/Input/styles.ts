@@ -28,4 +28,12 @@ export const styles = StyleSheet.create({
   icon: {
     padding: 4,
   },
+  inputWrapperErro: {
+    borderColor: "#C62828",
+  },
+  errorText: {
+    fontSize: 12,
+    color: "#C62828",
+    marginTop: 4,
+  },
 });
