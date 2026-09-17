@@ -24,7 +24,6 @@ O principal objetivo do Tere Verde é facilitar o acesso a informações sobre t
 * Centralizar informações sobre trilhas.
 * Apresentar imagens, descrições e detalhes dos locais.
 * Informar distância, duração estimada e nível de dificuldade.
-* Disponibilizar avisos e alertas importantes.
 * Permitir avaliações e feedbacks dos usuários.
 * Facilitar a busca e descoberta de trilhas.
 * Incentivar o turismo responsável e a valorização das áreas naturais.
@@ -35,7 +34,7 @@ O principal objetivo do Tere Verde é facilitar o acesso a informações sobre t
 
 Informações sobre trilhas podem estar espalhadas em diferentes sites, redes sociais, aplicativos e relatos de visitantes.
 
-Isso dificulta a consulta de dados como localização, distância, duração, dificuldade, condições do local e avisos.
+Isso dificulta a consulta de dados como localização, distância, duração, dificuldade e condições do local .
 
 O **Tere Verde** propõe centralizar essas informações em uma experiência mobile única, facilitando o acesso e a organização dos dados das trilhas.
 
@@ -62,7 +61,7 @@ Encontrar trilhas e conhecer suas características.
 
 ### 🥾 PLANEJAR
 
-Consultar informações como dificuldade, distância, duração, localização e avisos.
+Consultar informações como dificuldade, distância, duração e localização.
 
 ### 🌿 EXPLORAR
 
@@ -81,12 +80,11 @@ Os requisitos funcionais representam as **funções que o sistema deve realizar*
 | **RF03** | Visualizar trilhas    | Permitir visualizar a lista de trilhas disponíveis.                                 |
 | **RF04** | Pesquisar trilhas     | Permitir localizar trilhas por meio de pesquisa.                                    |
 | **RF05** | Filtrar trilhas       | Permitir filtrar trilhas por características como dificuldade, distância e duração. |
-| **RF06** | Visualizar detalhes   | Apresentar informações completas sobre uma trilha selecionada.                      |
-| **RF07** | Visualizar avisos     | Permitir consultar avisos e informações importantes relacionados às trilhas.        |
-| **RF08** | Avaliar trilhas       | Permitir que usuários registrem avaliações e feedbacks.                             |
-| **RF09** | Visualizar feedbacks  | Permitir consultar avaliações e comentários de outros usuários.                     |
-| **RF10** | Gerenciar informações | Permitir o gerenciamento das informações das trilhas por usuários autorizados.      |
-| **RF11** | Perfil                | Permitir visualizar e gerenciar informações do usuário.                             |
+| **RF06** | Visualizar detalhes   | Apresentar informações completas sobre uma trilha selecionada.                      ||
+| **RF07** | Avaliar trilhas       | Permitir que usuários registrem avaliações e feedbacks.                             |
+| **RF08** | Visualizar feedbacks  | Permitir consultar avaliações e comentários de outros usuários.                     |
+| **RF9**  | Gerenciar informações | Permitir o gerenciamento das informações das trilhas por usuários autorizados.      |
+| **RF10** | Perfil                | Permitir visualizar e gerenciar informações do usuário.                             |
 
 ---
 
@@ -118,7 +116,6 @@ O escopo da primeira versão do **Tere Verde** está concentrado na consulta e o
 * Visualização de trilhas.
 * Pesquisa e filtros.
 * Consulta de detalhes das trilhas.
-* Consulta de avisos.
 * Avaliações e feedbacks.
 * Perfil do usuário.
 * Comunicação entre aplicativo e API.
@@ -148,10 +145,9 @@ Esses recursos poderão ser avaliados e implementados em versões futuras.
 
 | Funcionalidade        | Descrição                                                                                     |
 | --------------------- | --------------------------------------------------------------------------------------------- |
-| 🏠 **Página inicial** | Trilhas em destaque, trilhas populares, avisos e acesso rápido às principais funcionalidades. |
+| 🏠 **Página inicial** | Trilhas em destaque, trilhas populares e acesso rápido às principais funcionalidades. |
 | 🥾 **Trilhas**        | Lista de trilhas com nome, imagem, localização, descrição e características.                  |
 | 📖 **Detalhes**       | Informações completas sobre cada trilha, incluindo distância, duração e dificuldade.          |
-| ⚠️ **Avisos**         | Alertas sobre fechamento, manutenção, condições climáticas e pontos de atenção.               |
 | ⭐ **Feedbacks**       | Avaliações, comentários e experiências compartilhadas pelos usuários.                         |
 | 🔍 **Filtros**        | Busca por dificuldade, distância, duração, localização e avaliação.                           |
 | 👤 **Perfil**         | Informações e dados do usuário.                                                               |
@@ -161,7 +157,7 @@ Esses recursos poderão ser avaliados e implementados em versões futuras.
 
 # 10. Fluxo principal do usuário
 
-**Abrir aplicativo → Splash → Login/Cadastro → Home → Trilhas → Selecionar trilha → Detalhes da trilha → Avisos/Feedback → Explorar**
+**Abrir aplicativo → Splash → Login/Cadastro → Home → Trilhas → Selecionar trilha → Detalhes da trilha → Feedback → Explorar**
 
 ---
 
@@ -175,7 +171,6 @@ Esses recursos poderão ser avaliados e implementados em versões futuras.
 | **Home**     | Página principal e acesso às funcionalidades.   |
 | **Trilhas**  | Lista, pesquisa e filtros de trilhas.           |
 | **Detalhes** | Informações completas da trilha.                |
-| **Avisos**   | Alertas e informações importantes.              |
 | **Feedback** | Avaliações e comentários.                       |
 | **Perfil**   | Informações do usuário.                         |
 
@@ -203,7 +198,7 @@ Endpoints + Autenticação + Regras de negócio
 
 ### BANCO DE DADOS
 
-Armazenamento das informações dos usuários, trilhas, avisos e feedbacks.
+Armazenamento das informações dos usuários, trilhas e feedbacks.
 
 ---
 
@@ -250,7 +245,6 @@ Cada trilha poderá possuir informações como:
 * Duração estimada.
 * Nível de dificuldade.
 * Altitude e características do percurso.
-* Avisos.
 * Avaliação.
 * Feedbacks dos usuários.
 
@@ -267,7 +261,6 @@ A equipe de Integração/Produto deverá validar se os dados retornados pela API
 | **POST /login**                  | Autenticação do usuário.           |
 | **GET /trilhas**                 | Lista as trilhas disponíveis.      |
 | **GET /trilhas/{id}**            | Retorna os detalhes de uma trilha. |
-| **GET /avisos**                  | Retorna avisos disponíveis.        |
 | **GET /trilhas/{id}/feedbacks**  | Retorna avaliações e comentários.  |
 | **POST /trilhas/{id}/feedbacks** | Cadastra um novo feedback.         |
 
@@ -478,13 +471,13 @@ As funcionalidades abaixo poderão ser implementadas em versões futuras do Tere
 * ☑ Definição dos requisitos funcionais
 * ☑ Definição dos requisitos não funcionais
 * ☑ Definição do escopo
-* ☐ Desenvolvimento do Mobile
-* ☐ Desenvolvimento da API
-* ☐ Banco de dados
-* ☐ Integração Mobile ↔ API
-* ☐ Implementação das funcionalidades
-* ☐ Testes
-* ☐ Documentação final
+* ☑ Desenvolvimento do Mobile
+* ☑ Desenvolvimento da API
+* ☑ Banco de dados
+* ☑ Integração Mobile ↔ API
+* ☑ Implementação das funcionalidades
+* ☑ Testes
+* ☑ Documentação final
 * ☐ Apresentação
 
 ---
